@@ -1,13 +1,12 @@
 package lv.iljakorneckis.webloans.repository;
 
 import lv.iljakorneckis.webloans.domain.Loan;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-/**
- * Created by Admin_2 on 2014-06-22.
- */
-public interface LoanRepository extends JpaRepository<Loan, Long>{
+public interface LoanRepository extends CrudRepository<Loan, Long> {
     List<Loan> findByUserId(String userId);
+
+    Loan findByIdAndUserId(Long id, String userId);
 }

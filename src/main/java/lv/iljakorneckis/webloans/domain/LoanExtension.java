@@ -5,10 +5,6 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 
-/**
- * Created by Admin_2 on 2014-06-23.
- */
-
 @Entity
 public class LoanExtension {
     @Id

@@ -61,7 +61,6 @@ public class LoanRepositoryTest {
     @After
     public void cleanUp() {
         loanRepo.deleteAll();
-        loanRepo.flush();
     }
 
     @Test
