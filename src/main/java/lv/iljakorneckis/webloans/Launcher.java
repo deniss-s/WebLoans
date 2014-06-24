@@ -2,11 +2,12 @@ package lv.iljakorneckis.webloans;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-/**
- * Created by Admin_2 on 2014-06-22.
- */
+@Configuration
 @EnableAutoConfiguration
+@ComponentScan
 public class Launcher {
 
     public static void main(String[] args) {
