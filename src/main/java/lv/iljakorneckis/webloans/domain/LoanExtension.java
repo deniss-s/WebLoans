@@ -16,7 +16,7 @@ public class LoanExtension {
     private Long id;
 
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    public DateTime extensionDate;
+    private DateTime extensionDate;
 
     public Long getId() {
         return id;
