@@ -29,8 +29,9 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class LoanRiskAssessorImplTest {
 
-    private static final String VALID_USER_ID = "USER1";
+    private static final String VALID_USER_ID = "VALID_USER";
     private static final String USER_TOO_MANY_LOANS = "USER_MAX_LOANS";
+
 
 
     @Mock
@@ -43,9 +44,16 @@ public class LoanRiskAssessorImplTest {
     public void init() {
         assertThat(riskAssessor, not(nullValue()));
 
-        when(loanRepo.findByUserId(VALID_USER_ID)).thenReturn(Arrays.asList(new Loan[] {}));
+        Loan loan = mock(Loan.class);
+        when(loan.getApplicationDate()).thenReturn(DateTime.now());
+
+        Loan oldLoan = mock(Loan.class);
+        when(oldLoan.getApplicationDate()).thenReturn(DateTime.now().withDate(2013, 01, 16));
+
+        when(loanRepo.findByUserId(VALID_USER_ID)).thenReturn(Arrays.asList(new Loan[] {loan, loan, oldLoan}));
+
         when(loanRepo.findByUserId(USER_TOO_MANY_LOANS)).
-                thenReturn(Arrays.asList(new Loan[]{mock(Loan.class), mock(Loan.class), mock(Loan.class)}));
+                thenReturn(Arrays.asList(new Loan[]{loan, loan, loan}));
     }
 
     @Test
@@ -76,6 +84,14 @@ public class LoanRiskAssessorImplTest {
 
         assertThat(assessment, not(nullValue()));
         assertThat(assessment.getStatus(), equalTo(RiskStatus.TOO_MANY_APPLICATIONS));
+
+        // For VALID_USER_ID mock returns 3 loans, but one is from 2013, so validation should pass
+        when(tooManyLoansApplication.getUserId()).thenReturn(VALID_USER_ID);
+
+        assessment = riskAssessor.assessRisk(tooManyLoansApplication);
+
+        assertThat(assessment, not(nullValue()));
+        assertThat(assessment.getStatus(), equalTo(RiskStatus.OK));
     }
 
     @Test
