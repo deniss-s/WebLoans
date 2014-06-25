@@ -46,7 +46,7 @@ public class LoanRiskAssessorImpl implements LoanRiskAssessor {
 
     private boolean isNightTime(DateTime applicationDate) {
         LocalDateTime localApplicationDate = applicationDate.toLocalDateTime();
-        return localApplicationDate.getHourOfDay() > MORNING_HOUR;
+        return localApplicationDate.getHourOfDay() < MORNING_HOUR;
     }
 
     private boolean isMaxNumberOfApplicationsPerDay(List<Loan> userLoans, Integer maxNumberPerDay) {
