@@ -31,7 +31,7 @@ public class LoanRiskAssessorImpl implements LoanRiskAssessor {
     public LoanRiskAssessment assessRisk(LoanApplication loanApplication) {
         List<Loan> loanList = loanRepo.findByUserId(loanApplication.getUserId());
 
-        if(isMaxNumerOfApplicationsPerDay(loanList, MAX_LOANS_PER_USER_PER_DAY)) {
+        if(isMaxNumberOfApplicationsPerDay(loanList, MAX_LOANS_PER_USER_PER_DAY)) {
             return new LoanRiskAssessment(RiskStatus.TOO_MANY_APPLICATIONS, "Maximum number of loans reached");
         }
 
@@ -49,7 +49,7 @@ public class LoanRiskAssessorImpl implements LoanRiskAssessor {
         return localApplicationDate.getHourOfDay() > MORNING_HOUR;
     }
 
-    private boolean isMaxNumerOfApplicationsPerDay(List<Loan> userLoans, Integer maxNumberPerDay) {
+    private boolean isMaxNumberOfApplicationsPerDay(List<Loan> userLoans, Integer maxNumberPerDay) {
         LocalDate today = DateTime.now().toLocalDate();
 
         int numberOfApplicationsPerToday = 0;

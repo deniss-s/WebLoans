@@ -8,12 +8,15 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class RiskAssessmentExceptionTest {
 
+    private static final String MESSAGE = "TEST MESSAGE";
+
     @Test
     public void testRiskAssessmentException(){
         try {
-            throw new RiskAssessmentException(RiskStatus.APPLIED_AFTER_MIDNIGHT, "TEST MESSAGE");
+            throw new RiskAssessmentException(RiskStatus.APPLIED_AFTER_MIDNIGHT, MESSAGE);
         } catch (RiskAssessmentException e) {
             assertThat(e.getStatus(), equalTo(RiskStatus.APPLIED_AFTER_MIDNIGHT));
+            assertThat(e.getMessage(), equalTo(MESSAGE));
         }
     }
 }

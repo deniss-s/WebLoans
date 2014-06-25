@@ -48,12 +48,12 @@ public class LoanRiskAssessorImplTest {
         when(loan.getApplicationDate()).thenReturn(DateTime.now());
 
         Loan oldLoan = mock(Loan.class);
-        when(oldLoan.getApplicationDate()).thenReturn(DateTime.now().withDate(2013, 01, 16));
+        when(oldLoan.getApplicationDate()).thenReturn(DateTime.now().withDate(2013, 1, 16));
 
-        when(loanRepo.findByUserId(VALID_USER_ID)).thenReturn(Arrays.asList(new Loan[] {loan, loan, oldLoan}));
+        when(loanRepo.findByUserId(VALID_USER_ID)).thenReturn(Arrays.asList(loan, loan, oldLoan));
 
         when(loanRepo.findByUserId(USER_TOO_MANY_LOANS)).
-                thenReturn(Arrays.asList(new Loan[]{loan, loan, loan}));
+                thenReturn(Arrays.asList(loan, loan, loan));
     }
 
     @Test

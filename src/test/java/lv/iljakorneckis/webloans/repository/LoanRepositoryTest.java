@@ -14,12 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.persistence.PersistenceContext;
 import javax.transaction.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +27,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Matchers.argThat;
 import static uk.co.it.modular.hamcrest.date.DateMatchers.after;
 import static uk.co.it.modular.hamcrest.date.DateMatchers.within;
 
@@ -39,9 +36,9 @@ import static uk.co.it.modular.hamcrest.date.DateMatchers.within;
 public class LoanRepositoryTest {
 
     private static final String USER_ID = "USER_ID";
-    private static final Money AMOUNT = Money.of(CurrencyUnit.EUR, 5L);
+    private static final Money AMOUNT = Money.of(CurrencyUnit.EUR, new BigDecimal("60.00"));
     private static final Integer LOAN_TERM = 5;
-    private static final BigDecimal INTEREST = new BigDecimal(1.5).setScale(2, RoundingMode.HALF_UP);
+    private static final BigDecimal INTEREST = new BigDecimal("1.50");
 
     public Loan loan;
 
@@ -102,16 +99,16 @@ public class LoanRepositoryTest {
         LoanExtension ext2 = new LoanExtension();
         ext2.setExtensionDate(DateTime.now().plusHours(1));
 
-        loan.setExtensionHistrory(Arrays.asList(ext1, ext2));
+        loan.setExtensionHistory(Arrays.asList(ext1, ext2));
 
         loan = loanRepo.save(loan);
 
         Loan savedLoan = loanRepo.findOne(loan.getId());
 
         assertThat(savedLoan.getId(), not(nullValue()));
-        assertThat(savedLoan.getExtensionHistrory(), hasSize(2));
+        assertThat(savedLoan.getExtensionHistory(), hasSize(2));
 
-        for(LoanExtension ext : savedLoan.getExtensionHistrory()) {
+        for(LoanExtension ext : savedLoan.getExtensionHistory()) {
             assertThat(ext.getId(), not(nullValue()));
         }
     }
@@ -124,7 +121,7 @@ public class LoanRepositoryTest {
         anotherLoan.setUserId(USER_ID);
         anotherLoan.setApplicationDate(DateTime.now());
         anotherLoan.setEndDate(DateTime.now().plusDays(1));
-        anotherLoan.setAmount(Money.of(CurrencyUnit.EUR, BigDecimal.valueOf(4L)));
+        anotherLoan.setAmount(AMOUNT);
 
         loanRepo.save(anotherLoan);
 

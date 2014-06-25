@@ -21,6 +21,10 @@ import java.util.List;
 @Transactional
 public class LoanServiceImpl implements LoanService {
 
+    private static final BigDecimal INTEREST = new BigDecimal("5.00");
+    private static final BigDecimal FACTOR = new BigDecimal("1.50");
+    private static final Integer WEEK_INCREASE_PER_EXTENSION = 1;
+
     @Autowired
     private LoanRiskAssessor riskAssessor;
 
@@ -40,7 +44,7 @@ public class LoanServiceImpl implements LoanService {
         loan.setAmount(application.getAmount());
         loan.setEndDate(application.getTerm());
         loan.setApplicationDate(application.getApplicationDate());
-        loan.setInterest(BigDecimal.valueOf(1.5).setScale(2, RoundingMode.HALF_UP));
+        loan.setInterest(INTEREST);
 
         return loanRepo.save(loan);
     }
@@ -52,9 +56,9 @@ public class LoanServiceImpl implements LoanService {
         LoanExtension extension = new LoanExtension();
         extension.setExtensionDate(DateTime.now());
 
-        loan.setEndDate(loan.getEndDate().plusWeeks(1));
-        loan.setInterest(loan.getInterest().multiply(BigDecimal.valueOf(1.5).setScale(2, RoundingMode.HALF_UP)));
-        loan.getExtensionHistrory().add(extension);
+        loan.setEndDate(loan.getEndDate().plusWeeks(WEEK_INCREASE_PER_EXTENSION));
+        loan.setInterest(loan.getInterest().multiply(FACTOR));
+        loan.getExtensionHistory().add(extension);
 
         return loanRepo.save(loan);
     }

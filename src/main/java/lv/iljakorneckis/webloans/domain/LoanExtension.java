@@ -18,10 +18,6 @@ public class LoanExtension {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public DateTime getExtensionDate() {
         return extensionDate;
     }

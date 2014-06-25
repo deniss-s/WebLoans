@@ -31,7 +31,7 @@ public class Loan {
     private DateTime endDate;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<LoanExtension> extensionHistrory;
+    private List<LoanExtension> extensionHistory;
 
     public Long getId() {
         return id;
@@ -43,10 +43,6 @@ public class Loan {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Money getAmount() {
@@ -81,11 +77,11 @@ public class Loan {
         this.endDate = endDate;
     }
 
-    public List<LoanExtension> getExtensionHistrory() {
-        return extensionHistrory;
+    public List<LoanExtension> getExtensionHistory() {
+        return extensionHistory;
     }
 
-    public void setExtensionHistrory(List<LoanExtension> extensionHistrory) {
-        this.extensionHistrory = extensionHistrory;
+    public void setExtensionHistory(List<LoanExtension> extensionHistory) {
+        this.extensionHistory = extensionHistory;
     }
 }
