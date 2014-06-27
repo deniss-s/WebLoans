@@ -77,18 +77,18 @@ public class LoanRepositoryTest {
 
     @Test
     public void testUpdateLoan() {
-        BigDecimal newInterst = new BigDecimal(3).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal newInterest = new BigDecimal("3.00");
 
         loanRepo.save(loan);
 
         Loan savedLoan = loanRepo.findOne(loan.getId());
-        savedLoan.setInterest(newInterst);
+        savedLoan.setInterest(newInterest);
 
         loanRepo.save(savedLoan);
 
         savedLoan = loanRepo.findOne(loan.getId());
 
-        assertThat(savedLoan.getInterest(), equalTo(newInterst));
+        assertThat(savedLoan.getInterest(), equalTo(newInterest));
     }
 
     @Test
