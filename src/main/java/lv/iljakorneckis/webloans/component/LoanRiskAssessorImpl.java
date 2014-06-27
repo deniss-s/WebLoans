@@ -1,5 +1,7 @@
 package lv.iljakorneckis.webloans.component;
 
+import lv.iljakorneckis.webloans.component.producer.DateTimeProducer;
+import lv.iljakorneckis.webloans.component.settings.LoanRiskAssessmentSettings;
 import lv.iljakorneckis.webloans.domain.Loan;
 import lv.iljakorneckis.webloans.domain.LoanApplication;
 import lv.iljakorneckis.webloans.domain.LoanRiskAssessment;
@@ -17,12 +19,11 @@ import java.util.List;
 @Component
 public class LoanRiskAssessorImpl implements LoanRiskAssessor {
 
-    public static final Money MAX_AMOUNT_EUR = Money.of(CurrencyUnit.EUR, new BigDecimal(1000));
-    public static final Integer MAX_LOANS_PER_USER_PER_DAY = 3;
-    /**
-     * Hour of day when "morning" starts
-     */
-    private static final Integer MORNING_HOUR = 7;
+    @Autowired
+    private DateTimeProducer dateTimeProducer;
+
+    @Autowired
+    private LoanRiskAssessmentSettings settings;
 
     @Autowired
     private LoanRepository loanRepo;
@@ -31,12 +32,12 @@ public class LoanRiskAssessorImpl implements LoanRiskAssessor {
     public LoanRiskAssessment assessRisk(LoanApplication loanApplication) {
         List<Loan> loanList = loanRepo.findByUserId(loanApplication.getUserId());
 
-        if(isMaxNumberOfApplicationsPerDay(loanList, MAX_LOANS_PER_USER_PER_DAY)) {
+        if(isMaxNumberOfApplicationsPerDay(loanList, settings.getMaxLoansPerDay())) {
             return new LoanRiskAssessment(RiskStatus.TOO_MANY_APPLICATIONS, "Maximum number of loans reached");
         }
 
         // If application is made at night with max possible amount
-        if(isNightTime(loanApplication.getApplicationDate()) && MAX_AMOUNT_EUR.isEqual(loanApplication.getAmount())) {
+        if(isNightTime(loanApplication.getApplicationDate()) && settings.getMaxAmount().isEqual(loanApplication.getAmount())) {
             return new LoanRiskAssessment(RiskStatus.APPLIED_AFTER_MIDNIGHT, "Application made after midnight with maximum allowed amount");
         }
 
@@ -46,11 +47,11 @@ public class LoanRiskAssessorImpl implements LoanRiskAssessor {
 
     private boolean isNightTime(DateTime applicationDate) {
         LocalDateTime localApplicationDate = applicationDate.toLocalDateTime();
-        return localApplicationDate.getHourOfDay() < MORNING_HOUR;
+        return localApplicationDate.getHourOfDay() < settings.getMorningHour();
     }
 
     private boolean isMaxNumberOfApplicationsPerDay(List<Loan> userLoans, Integer maxNumberPerDay) {
-        LocalDate today = DateTime.now().toLocalDate();
+        LocalDate today = dateTimeProducer.getCurrentDateTime().toLocalDate();
 
         int numberOfApplicationsPerToday = 0;
 

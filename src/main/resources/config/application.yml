@@ -1,0 +1,9 @@
+server:
+    port: 8081
+
+loan:
+    assessment:
+        maxAmount: EUR 1000.00
+        maxLoansPerDay: 3
+        morningHour: 7
+---
