@@ -38,6 +38,8 @@ public class LoanRiskAssessorImplTest {
     private static final DateTime CURRENT_DATE_DAY = DateTime.now().withTime(13, 1, 1, 1);
     private static final DateTime CURRENT_DATE_NIGHT = DateTime.now().withTime(1, 1, 1, 1);
 
+    private static final Integer LOAN_TERM_DAYS = 31;
+
     @Mock
     private DateTimeProducer dateTimeProducer;
 
@@ -76,7 +78,7 @@ public class LoanRiskAssessorImplTest {
         LoanApplication validApplication = mock(LoanApplication.class);
         when(validApplication.getAmount()).thenReturn(Money.of(CurrencyUnit.EUR, BigDecimal.TEN));
         when(validApplication.getApplicationDate()).thenReturn(CURRENT_DATE_DAY);
-        when(validApplication.getTerm()).thenReturn(CURRENT_DATE_DAY.plusMonths(5));
+        when(validApplication.getTerm()).thenReturn(LOAN_TERM_DAYS);
         when(validApplication.getUserId()).thenReturn(VALID_USER_ID);
 
         LoanRiskAssessment assessment = riskAssessor.assessRisk(validApplication);
@@ -92,7 +94,7 @@ public class LoanRiskAssessorImplTest {
         LoanApplication tooManyLoansApplication = mock(LoanApplication.class);
         when(tooManyLoansApplication.getAmount()).thenReturn(Money.of(CurrencyUnit.EUR, BigDecimal.TEN));
         when(tooManyLoansApplication.getApplicationDate()).thenReturn(CURRENT_DATE_DAY);
-        when(tooManyLoansApplication.getTerm()).thenReturn(CURRENT_DATE_DAY.plusMonths(5));
+        when(tooManyLoansApplication.getTerm()).thenReturn(LOAN_TERM_DAYS);
         when(tooManyLoansApplication.getUserId()).thenReturn(USER_TOO_MANY_LOANS);
 
         LoanRiskAssessment assessment = riskAssessor.assessRisk(tooManyLoansApplication);
@@ -114,7 +116,7 @@ public class LoanRiskAssessorImplTest {
         LoanApplication maxAmountAfterMidnightApplication = mock(LoanApplication.class);
         when(maxAmountAfterMidnightApplication.getAmount()).thenReturn(MAX_AMOUNT);
         when(maxAmountAfterMidnightApplication.getApplicationDate()).thenReturn(CURRENT_DATE_NIGHT.withHourOfDay(3));
-        when(maxAmountAfterMidnightApplication.getTerm()).thenReturn(CURRENT_DATE_NIGHT.plusMonths(5));
+        when(maxAmountAfterMidnightApplication.getTerm()).thenReturn(LOAN_TERM_DAYS);
         when(maxAmountAfterMidnightApplication.getUserId()).thenReturn(VALID_USER_ID);
 
         when(dateTimeProducer.getCurrentDateTime()).thenReturn(CURRENT_DATE_NIGHT);

@@ -42,8 +42,13 @@ public class LoanServiceImpl implements LoanService {
         Loan loan = new Loan();
         loan.setUserId(application.getUserId());
         loan.setAmount(application.getAmount());
-        loan.setEndDate(application.getTerm());
-        loan.setApplicationDate(application.getApplicationDate());
+
+        DateTime applicationDate = application.getApplicationDate();
+        loan.setApplicationDate(applicationDate);
+
+        DateTime endDate = applicationDate.plusDays(application.getTerm());
+        loan.setEndDate(endDate);
+
         loan.setInterest(INTEREST);
 
         return loanRepo.save(loan);

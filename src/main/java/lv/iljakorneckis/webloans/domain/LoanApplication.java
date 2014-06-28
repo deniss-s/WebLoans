@@ -10,7 +10,7 @@ public class LoanApplication {
 
     private String userId;
     private Money amount;
-    private DateTime term;
+    private Integer term;
     private DateTime applicationDate;
 
     public String getUserId() {
@@ -29,11 +29,14 @@ public class LoanApplication {
         this.amount = amount;
     }
 
-    public DateTime getTerm() {
+    public Integer getTerm() {
         return term;
     }
 
-    public void setTerm(DateTime term) {
+    /**
+     * @param term number of days for loan term
+     */
+    public void setTerm(Integer term) {
         this.term = term;
     }
 
