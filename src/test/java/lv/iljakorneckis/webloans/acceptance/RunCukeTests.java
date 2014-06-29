@@ -7,6 +7,7 @@ import lv.iljakorneckis.webloans.Launcher;
 import org.apache.catalina.core.ApplicationContext;
 import org.junit.runner.RunWith;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @RunWith(Cucumber.class)
