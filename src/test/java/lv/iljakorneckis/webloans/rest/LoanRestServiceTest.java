@@ -1,8 +1,10 @@
 package lv.iljakorneckis.webloans.rest;
 
+import lv.iljakorneckis.webloans.component.converter.LoanToLoanResponseConverter;
 import lv.iljakorneckis.webloans.component.producer.DateTimeProducer;
 import lv.iljakorneckis.webloans.domain.Loan;
 import lv.iljakorneckis.webloans.domain.LoanApplication;
+import lv.iljakorneckis.webloans.domain.dto.LoanResponse;
 import lv.iljakorneckis.webloans.exceptions.RiskAssessmentException;
 import lv.iljakorneckis.webloans.service.LoanService;
 import org.joda.time.DateTime;
@@ -36,6 +38,9 @@ public class LoanRestServiceTest {
     @Mock
     private DateTimeProducer dateTimeProducer;
 
+    @Mock
+    private LoanToLoanResponseConverter converter;
+
     @InjectMocks
     private LoanRestService restService;
 
@@ -47,9 +52,16 @@ public class LoanRestServiceTest {
     @Test
     public void testGetLoanHistory() {
         Loan mockLoan = mock(Loan.class);
-        when(loanService.getLoanHistory(USER_IP)).thenReturn(Arrays.asList(mockLoan, mockLoan));
+        List<Loan> list = Arrays.asList(mockLoan, mockLoan);
+        when(loanService.getLoanHistory(USER_IP)).thenReturn(list);
 
-        List<Loan> userLoans = restService.getLoanHistory(request);
+        LoanResponse loanResponse = mock(LoanResponse.class);
+
+        List<LoanResponse> responseList = Arrays.asList(loanResponse, loanResponse);
+
+        when(converter.convert(list)).thenReturn(responseList);
+
+        List<LoanResponse> userLoans = restService.getLoanHistory(request);
 
         verify(loanService, times(1)).getLoanHistory(USER_IP);
         assertThat(userLoans, hasSize(2));
