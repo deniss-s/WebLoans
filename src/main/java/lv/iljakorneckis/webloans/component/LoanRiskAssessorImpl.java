@@ -7,9 +7,9 @@ import lv.iljakorneckis.webloans.domain.LoanApplication;
 import lv.iljakorneckis.webloans.domain.LoanRiskAssessment;
 import lv.iljakorneckis.webloans.enums.RiskStatus;
 import lv.iljakorneckis.webloans.repository.LoanRepository;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

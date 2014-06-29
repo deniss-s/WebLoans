@@ -2,7 +2,6 @@ package lv.iljakorneckis.webloans.rest;
 
 import lv.iljakorneckis.webloans.component.converter.LoanToLoanResponseConverter;
 import lv.iljakorneckis.webloans.component.producer.DateTimeProducer;
-import lv.iljakorneckis.webloans.domain.Loan;
 import lv.iljakorneckis.webloans.domain.LoanApplication;
 import lv.iljakorneckis.webloans.domain.dto.LoanResponse;
 import lv.iljakorneckis.webloans.exceptions.RiskAssessmentException;
@@ -11,7 +10,6 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,8 +39,8 @@ public class LoanRestService {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<String> applyForLoan(@RequestParam("amount") BigDecimal amount,
-                             @RequestParam("term") Integer term,
-                             HttpServletRequest request) throws RiskAssessmentException {
+                                               @RequestParam("term") Integer term,
+                                               HttpServletRequest request) throws RiskAssessmentException {
 
         final String ip = request.getRemoteAddr();
 
@@ -65,5 +63,4 @@ public class LoanRestService {
 
         return new ResponseEntity<String>(HttpStatus.OK);
     }
-
 }
