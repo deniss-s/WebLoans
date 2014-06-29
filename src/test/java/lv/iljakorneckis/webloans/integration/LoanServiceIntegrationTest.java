@@ -1,12 +1,10 @@
 package lv.iljakorneckis.webloans.integration;
 
 import lv.iljakorneckis.webloans.Launcher;
-import lv.iljakorneckis.webloans.component.LoanRiskAssessor;
 import lv.iljakorneckis.webloans.component.settings.LoanDefaultSettings;
 import lv.iljakorneckis.webloans.component.settings.LoanRiskAssessmentSettings;
 import lv.iljakorneckis.webloans.domain.Loan;
 import lv.iljakorneckis.webloans.domain.LoanApplication;
-import lv.iljakorneckis.webloans.domain.LoanRiskAssessment;
 import lv.iljakorneckis.webloans.enums.RiskStatus;
 import lv.iljakorneckis.webloans.exceptions.RiskAssessmentException;
 import lv.iljakorneckis.webloans.service.LoanService;

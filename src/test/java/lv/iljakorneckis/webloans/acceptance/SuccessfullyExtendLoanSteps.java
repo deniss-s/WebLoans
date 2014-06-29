@@ -1,18 +1,11 @@
 package lv.iljakorneckis.webloans.acceptance;
 
-import com.jayway.restassured.matcher.RestAssuredMatchers;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import lv.iljakorneckis.webloans.Launcher;
-import lv.iljakorneckis.webloans.domain.Loan;
 import lv.iljakorneckis.webloans.helper.TestHelper;
 import org.joda.time.DateTime;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
 
 import java.math.BigDecimal;
 import java.util.Date;

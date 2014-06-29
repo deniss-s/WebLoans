@@ -1,6 +1,5 @@
 package lv.iljakorneckis.webloans.component.producer;
 
-import org.hamcrest.MatcherAssert;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
