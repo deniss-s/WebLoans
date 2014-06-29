@@ -32,6 +32,10 @@ public class LoanRiskAssessorImpl implements LoanRiskAssessor {
     public LoanRiskAssessment assessRisk(LoanApplication loanApplication) {
         List<Loan> loanList = loanRepo.findByUserId(loanApplication.getUserId());
 
+        if(settings.getMaxAmount().isLessThan(loanApplication.getAmount())) {
+            return new LoanRiskAssessment(RiskStatus.MAX_AMOUNT_EXCEEDED, "Maximum loan amount exceeded");
+        }
+
         if(isMaxNumberOfApplicationsPerDay(loanList, settings.getMaxLoansPerDay())) {
             return new LoanRiskAssessment(RiskStatus.TOO_MANY_APPLICATIONS, "Maximum number of loans reached");
         }
