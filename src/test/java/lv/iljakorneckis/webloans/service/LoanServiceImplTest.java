@@ -1,6 +1,7 @@
 package lv.iljakorneckis.webloans.service;
 
 import lv.iljakorneckis.webloans.component.LoanRiskAssessorImpl;
+import lv.iljakorneckis.webloans.component.settings.LoanDefaultSettings;
 import lv.iljakorneckis.webloans.domain.Loan;
 import lv.iljakorneckis.webloans.domain.LoanApplication;
 import lv.iljakorneckis.webloans.domain.LoanExtension;
@@ -36,6 +37,9 @@ public class LoanServiceImplTest {
 
 
     @Mock
+    private LoanDefaultSettings settings;
+
+    @Mock
     private LoanRepository loanRepository;
 
     @Mock
@@ -46,7 +50,9 @@ public class LoanServiceImplTest {
 
     @Before
     public void init() {
-        assertThat(loanService, not(nullValue()));
+        when(settings.getFactor()).thenReturn(FACTOR);
+        when(settings.getInterest()).thenReturn(INTEREST);
+        when(settings.getWeekIncreasePerExtension()).thenReturn(1);
     }
 
     @Test
@@ -89,7 +95,6 @@ public class LoanServiceImplTest {
         when(assessment.getMessage()).thenReturn("Max number of applications reached!");
 
         when(loanRiskAssessor.assessRisk(application)).thenReturn(assessment);
-
         loanService.applyForLoan(application);
     }
 

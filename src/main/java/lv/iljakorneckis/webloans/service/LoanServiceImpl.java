@@ -1,6 +1,7 @@
 package lv.iljakorneckis.webloans.service;
 
 import lv.iljakorneckis.webloans.component.LoanRiskAssessor;
+import lv.iljakorneckis.webloans.component.settings.LoanDefaultSettings;
 import lv.iljakorneckis.webloans.domain.Loan;
 import lv.iljakorneckis.webloans.domain.LoanApplication;
 import lv.iljakorneckis.webloans.domain.LoanExtension;
@@ -21,9 +22,8 @@ import java.util.List;
 @Transactional
 public class LoanServiceImpl implements LoanService {
 
-    private static final BigDecimal INTEREST = new BigDecimal("5.00");
-    private static final BigDecimal FACTOR = new BigDecimal("1.50");
-    private static final Integer WEEK_INCREASE_PER_EXTENSION = 1;
+    @Autowired
+    private LoanDefaultSettings settings;
 
     @Autowired
     private LoanRiskAssessor riskAssessor;
@@ -49,7 +49,7 @@ public class LoanServiceImpl implements LoanService {
         DateTime endDate = applicationDate.plusDays(application.getTerm());
         loan.setEndDate(endDate);
 
-        loan.setInterest(INTEREST);
+        loan.setInterest(settings.getInterest());
 
         return loanRepo.save(loan);
     }
@@ -61,8 +61,8 @@ public class LoanServiceImpl implements LoanService {
         LoanExtension extension = new LoanExtension();
         extension.setExtensionDate(DateTime.now());
 
-        loan.setEndDate(loan.getEndDate().plusWeeks(WEEK_INCREASE_PER_EXTENSION));
-        loan.setInterest(loan.getInterest().multiply(FACTOR));
+        loan.setEndDate(loan.getEndDate().plusWeeks(settings.getWeekIncreasePerExtension()));
+        loan.setInterest(loan.getInterest().multiply(settings.getFactor()));
         loan.getExtensionHistory().add(extension);
 
         return loanRepo.save(loan);
