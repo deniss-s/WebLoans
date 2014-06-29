@@ -17,8 +17,8 @@ public class ConversionConfiguration {
         ConversionServiceFactoryBean bean = new ConversionServiceFactoryBean();
         bean.setConverters(getConverters());
         bean.afterPropertiesSet();
-        ConversionService object = bean.getObject();
-        return object;
+
+        return bean.getObject();
     }
 
     private Set<Converter> getConverters() {
