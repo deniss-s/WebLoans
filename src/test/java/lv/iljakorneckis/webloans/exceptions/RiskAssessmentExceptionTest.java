@@ -16,7 +16,7 @@ public class RiskAssessmentExceptionTest {
             throw new RiskAssessmentException(RiskStatus.APPLIED_AFTER_MIDNIGHT, MESSAGE);
         } catch (RiskAssessmentException e) {
             assertThat(e.getStatus(), equalTo(RiskStatus.APPLIED_AFTER_MIDNIGHT));
-            assertThat(e.getMessage(), equalTo(MESSAGE));
+            assertThat(e.getMessage(), equalTo(RiskStatus.APPLIED_AFTER_MIDNIGHT + ": " + MESSAGE));
         }
     }
 }
