@@ -1,11 +1,14 @@
 package lv.iljakorneckis.webloans.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
+@JsonIgnoreProperties({"extensionDate"})
 public class LoanExtension {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +19,14 @@ public class LoanExtension {
 
     public Long getId() {
         return id;
+    }
+
+    public Date getDate() {
+        if(extensionDate != null) {
+            return extensionDate.toDate();
+        }
+
+        return null;
     }
 
     public DateTime getExtensionDate() {

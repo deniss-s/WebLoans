@@ -30,7 +30,7 @@ public class SuccessfullyExtendLoanSteps {
         String loanJson = get("/rest/loans").asString();
         this.loanId = from(loanJson).getString("[0].id");
         this.initialInterest = new BigDecimal(from(loanJson).getString("[0].interest"));
-        this.initialEndDate = new DateTime(new Date(from(loanJson).getLong("[0].endDate")));
+        this.initialEndDate = new DateTime(new Date(from(loanJson).getLong("[0].termDate")));
 
         assertThat(loanId, not(nullValue()));
         assertThat(initialInterest, not(nullValue()));
@@ -68,7 +68,7 @@ public class SuccessfullyExtendLoanSteps {
     public void extended_loan_end_date_increased_one_week(Integer weekIncrease) {
         final DateTime increasedEndDate = this.initialEndDate.plusWeeks(weekIncrease);
 
-        String dateString = get("/rest/loans").path("[0].endDate").toString();
+        String dateString = get("/rest/loans").path("[0].termDate").toString();
         DateTime date = TestHelper.extractDate(dateString);
 
         assertThat(date.toDate(), within(5, TimeUnit.SECONDS, increasedEndDate.toDate()));

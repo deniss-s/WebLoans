@@ -46,3 +46,23 @@ POST   `/rest/loans`
 #####Extend loan:
     
 POST   `/rest/loans/{loanId}/extend`
+
+## Example JSON object for loan with a single extension
+
+```javascript
+{
+    "id":1,
+    "userId":"0:0:0:0:0:0:0:1",
+    "interest":7.50,
+    "extensionHistory":[
+        {
+            "id":1,
+            "date":1404069952147
+        }
+    ],
+    "currency":"EUR",
+    "loanAmount":1000.00,
+    "loanDate":1404069940555,
+    "termDate":1405970740555
+}
+```

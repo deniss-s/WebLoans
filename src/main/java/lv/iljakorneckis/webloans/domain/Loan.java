@@ -1,5 +1,6 @@
 package lv.iljakorneckis.webloans.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Type;
 import org.joda.money.Money;
@@ -14,9 +15,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties({"amount", "applicationDate", "endDate"})
 public class Loan {
 
     @Id
@@ -56,6 +59,28 @@ public class Loan {
         return amount;
     }
 
+    /**
+     * Synthetic field, exposes decimal part of {@link org.joda.money.Money} getAmount field for Json serialization
+     */
+    public BigDecimal getLoanAmount() {
+        if(amount != null) {
+            return amount.getAmount();
+        }
+
+        return null;
+    }
+
+    /**
+     * Synthetic field, exposes {@link org.joda.money.CurrencyUnit} part of getAmount field
+     */
+    public String getCurrency() {
+        if(amount != null) {
+            return amount.getCurrencyUnit().getCurrencyCode();
+        }
+
+        return null;
+    }
+
     public void setAmount(Money amount) {
         this.amount = amount;
     }
@@ -72,12 +97,34 @@ public class Loan {
         return applicationDate;
     }
 
+    /**
+     * Synthetic field, exposes <b>applicationDate</b> as {@link java.util.Date} for serialization
+     */
+    public Date getLoanDate() {
+        if(applicationDate != null) {
+            return applicationDate.toDate();
+        }
+
+        return null;
+    }
+
     public void setApplicationDate(DateTime applicationDate) {
         this.applicationDate = applicationDate;
     }
 
     public DateTime getEndDate() {
         return endDate;
+    }
+
+    /**
+     * Synthetic field, exposes <b>endDate</b> as {@link java.util.Date} for serialization
+     */
+    public Date getTermDate() {
+        if(endDate != null) {
+            return endDate.toDate();
+        }
+
+        return null;
     }
 
     public void setEndDate(DateTime endDate) {

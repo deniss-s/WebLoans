@@ -1,9 +1,8 @@
 package lv.iljakorneckis.webloans.rest;
 
-import lv.iljakorneckis.webloans.component.converter.LoanToLoanResponseConverter;
 import lv.iljakorneckis.webloans.component.producer.DateTimeProducer;
+import lv.iljakorneckis.webloans.domain.Loan;
 import lv.iljakorneckis.webloans.domain.LoanApplication;
-import lv.iljakorneckis.webloans.domain.dto.LoanResponse;
 import lv.iljakorneckis.webloans.exceptions.RiskAssessmentException;
 import lv.iljakorneckis.webloans.service.LoanService;
 import org.joda.money.CurrencyUnit;
@@ -11,7 +10,11 @@ import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -25,16 +28,13 @@ public class LoanRestService {
     private DateTimeProducer dateTimeProducer;
 
     @Autowired
-    private LoanToLoanResponseConverter converter;
-
-    @Autowired
     private LoanService loanService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<LoanResponse> getLoanHistory(HttpServletRequest request) {
+    public List<Loan> getLoanHistory(HttpServletRequest request) {
         final String ip = request.getRemoteAddr();
 
-        return converter.convert(loanService.getLoanHistory(ip));
+        return loanService.getLoanHistory(ip);
     }
 
     @RequestMapping(method = RequestMethod.POST)
