@@ -1,17 +1,14 @@
 # WebLoans microservice
 
 ## Compiling
-------
 
 Compile with maven: `mvn clean install`
 
 ## Running
------
 
 Run as a simple jar: `java -jar webloans-1.0-SNAPSHOT.jar`
 
 ## Configuration
------
 
 Config file is `application.yml` in `src/main/resources`
 
@@ -33,7 +30,6 @@ Defaults are:
             morningHour: 7
 
 ## REST endpoints
------
 
 #####Loan history:
 
